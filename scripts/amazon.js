@@ -42,6 +42,9 @@
 
 
 // 2.generate html for webpage and store above data in html
+import { cart } from "../data/cart(1)"; 
+import { products } from "../data/products(1)"; 
+
 let productsHTML ='';
 products.forEach ((value)=>{
   const html=`
