@@ -126,7 +126,8 @@ document.querySelectorAll('.js-add-to-cart-button')
       else{
         cart.push({
           productId:productId,
-          Quantity:1
+          Quantity:1,
+          deliveryOptionsId: '1'
         });
       }
       console.log(cart);
