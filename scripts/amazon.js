@@ -42,8 +42,8 @@
 
 
 // 2.generate html for webpage and store above data in html
-import { cart } from "../data/cart(1)"; 
-import { products } from "../data/products(1)"; 
+import { cart,addToCart } from "../data/cart(1).js"; 
+import { products } from "../data/products(1).js"; 
 
 let productsHTML ='';
 products.forEach ((value)=>{
@@ -110,28 +110,8 @@ document.querySelectorAll('.js-add-to-cart-button')
   .forEach((button) =>{
     button.addEventListener('click',()=>{
       const productId=button.dataset.productId;
-
-      let matchingItem;
-      cart.forEach((item)=>{
-        if (productId === item.productId){
-          matchingItem = item;
-        }
-      });
-      // console.log(matchingItem);
-
-      if(matchingItem){//here matchingItem will contain an object which is a truhthy value so we can just write matchingItem as a cond.
-        matchingItem.Quantity +=1;
-      }
-      // console.log(matchingItem);
-      else{
-        cart.push({
-          productId:productId,
-          Quantity:1,
-          deliveryOptionsId: '1'
-        });
-      }
-      console.log(cart);
-      
+      addToCart(productId);
+    
       // update cartQuantiy on webpage 
       let cartQuantity=0;
       cart.forEach((item)=>{

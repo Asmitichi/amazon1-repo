@@ -1,6 +1,8 @@
-import { deliveryOptions } from "./deliveryOption(1)";
+import { deliveryOptions } from "./deliveryOption(1).js";
 
-export let cart=[{
+export let cart=JSON.parse(localStorage.getItem('cartName'))
+||
+ [{
   productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
   Quantity: 2,
   deliveryOptionsId: '1'
@@ -12,6 +14,35 @@ export let cart=[{
 }
 ];
 
+export function saveToStorage(){
+  localStorage.setItem('cartName',JSON.stringify(cart));
+}
+
+export function addToCart(productId){
+  let matchingItem;
+  cart.forEach((item)=>{
+    if (productId === item.productId){
+      matchingItem = item;
+    }
+  });
+  // console.log(matchingItem);
+
+  if(matchingItem){//here matchingItem will contain an object which is a truhthy value so we can just write matchingItem as a cond.
+    matchingItem.Quantity +=1;
+  }
+  // console.log(matchingItem);
+  else{
+    cart.push({
+      productId:productId,
+      Quantity:1,
+      deliveryOptionsId: '1'
+    });
+  }
+  console.log(cart);
+  saveToStorage();
+}  
+
+
 export function removeFromCart(productId){
   const newCart=[];
   cart.forEach((cartItem)=>{
@@ -20,4 +51,5 @@ export function removeFromCart(productId){
     }
   });
   cart=newCart;
+  saveToStorage();
 }
