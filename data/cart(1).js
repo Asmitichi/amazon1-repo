@@ -1,5 +1,7 @@
 import { deliveryOptions } from "./deliveryOption(1).js";
 
+
+
 export let cart=JSON.parse(localStorage.getItem('cartName'))
 ||
  [{
@@ -18,23 +20,23 @@ export function saveToStorage(){
   localStorage.setItem('cartName',JSON.stringify(cart));
 }
 
-export function addToCart(productId){
+export function addToCart(productId,quant){
   let matchingItem;
   cart.forEach((item)=>{
     if (productId === item.productId){
       matchingItem = item;
     }
   });
-  // console.log(matchingItem);
+  console.log(matchingItem);
 
   if(matchingItem){//here matchingItem will contain an object which is a truhthy value so we can just write matchingItem as a cond.
-    matchingItem.Quantity +=1;
+    matchingItem.quantity += quant;
   }
   // console.log(matchingItem);
   else{
     cart.push({
-      productId:productId,
-      Quantity:1,
+      productId,      // productId: productId
+      quantity: quant,
       deliveryOptionsId: '1'
     });
   }
