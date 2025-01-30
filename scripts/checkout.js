@@ -1,5 +1,6 @@
 import { cart,removeFromCart } from "../data/cart(1).js"; 
 import { products } from "../data/products(1).js"; 
+import { formatCurrency } from "./utils/money.js";
 
 let checkoutHTML="";
 cart.forEach((cartItem)=>{
@@ -25,7 +26,7 @@ cart.forEach((cartItem)=>{
                   ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $${((matchingProduct.priceCents)/100).toFixed(2)}
+                  $${formatCurrency(matchingProduct.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -102,5 +103,9 @@ document.querySelectorAll('.js-delete')
       container.remove();
     })
   });
+
+
+
+
   
 

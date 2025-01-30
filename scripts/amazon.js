@@ -2,6 +2,7 @@
 // 2.generate html for webpage and store above data in html
 import { cart,addToCart } from "../data/cart(1).js"; 
 import { products } from "../data/products(1).js"; 
+import { formatCurrency } from "./utils/money.js";
 
 let productsHTML ='';
 products.forEach ((value)=>{
@@ -25,7 +26,7 @@ products.forEach ((value)=>{
           </div>
 
           <div class="product-price">
-            $${(value.priceCents /100).toFixed(2)}
+            $${formatCurrency(value.priceCents)}
           </div>
 
           <div class="product-quantity-container">
@@ -45,7 +46,7 @@ products.forEach ((value)=>{
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${value.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -64,27 +65,55 @@ products.forEach ((value)=>{
 document.querySelector('.js-products-grid')
   .innerHTML=productsHTML;
 
+function updateCartQuantity(){
+  let cartQuantity=0;
+  cart.forEach((item)=>{
+    cartQuantity +=item.quantity;
+  })
+  // console.log(cartQuantity);
+
+  document.querySelector('.js-cart-quantity')
+    .innerHTML=cartQuantity;
+}
+
+const addedMessageTimeouts = {};
 document.querySelectorAll('.js-add-to-cart-button')
   .forEach((button) =>{
     button.addEventListener('click',()=>{
       const {productId}=button.dataset;  
 
-      const quantitySelector=document.querySelector(`.js-quantity-selector-${productId}`) 
-      const quant=Number(quantitySelector.value)
+      const quantitySelector=document.querySelector(`
+        .js-quantity-selector-${productId}`) ;
+      const quant=Number(quantitySelector.value);
       console.log(quant)
-
-    
+      
+      
+      // Add to cart
       addToCart(productId,quant);
       // update cartQuantiy on webpage 
-      let cartQuantity=0;
-      cart.forEach((item)=>{
-        cartQuantity +=item.quantity;
-      })
-      console.log(cartQuantity);
+      updateCartQuantity();
+    
 
-      document.querySelector('.js-cart-quantity')
-        .innerHTML=cartQuantity;
+      const addedMsg=document.querySelector(`
+        .js-added-to-cart-${productId}`);
+      
+      addedMsg.classList.add('add-to-cart-visible');
+      // Check if there's a previous timeout for this,
+      // product. If there is, we should stop it.
 
-     
+      const previousTimeoutId = addedMessageTimeouts[productId];
+      if(previousTimeoutId){
+        clearTimeout(previousTimeoutId);
+      }
+      const timeoutId=setTimeout(()=>{
+        addedMsg.classList.remove('add-to-cart-visible');
+        console.log(`${productId}`);
+      },2000);
+      // Save the timeoutId for this product
+      // so we can stop it later if we need to.
+      addedMessageTimeouts[productId] = timeoutId;
+       
     });
+   
+
   })

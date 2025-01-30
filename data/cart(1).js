@@ -20,6 +20,7 @@ export function saveToStorage(){
   localStorage.setItem('cartName',JSON.stringify(cart));
 }
 
+//Add to cart
 export function addToCart(productId,quant){
   let matchingItem;
   cart.forEach((item)=>{
@@ -44,7 +45,7 @@ export function addToCart(productId,quant){
   saveToStorage();
 }  
 
-
+//Remove from cart
 export function removeFromCart(productId){
   const newCart=[];
   cart.forEach((cartItem)=>{
