@@ -1,6 +1,6 @@
 
 // 2.generate html for webpage and store above data in html
-import { cart,addToCart } from "../data/cart(1).js"; 
+import { cart, addToCart, CalculateCartQuantity } from "../data/cart(1).js"; 
 import { products } from "../data/products(1).js"; 
 import { formatCurrency } from "./utils/money.js";
 
@@ -61,21 +61,21 @@ products.forEach ((value)=>{
   productsHTML+=html;
 });
 // console.log(productsHTML);
-//to show products on page
+
+//To show products on page
 document.querySelector('.js-products-grid')
   .innerHTML=productsHTML;
 
-function updateCartQuantity(){
-  let cartQuantity=0;
-  cart.forEach((item)=>{
-    cartQuantity +=item.quantity;
-  })
-  // console.log(cartQuantity);
+//To show current cartquantity at first load of page
+updateCartQuantity();
 
+function updateCartQuantity(){
+  const cartQuantity=CalculateCartQuantity();
   document.querySelector('.js-cart-quantity')
     .innerHTML=cartQuantity;
 }
 
+//ADD to cart button
 const addedMessageTimeouts = {};
 document.querySelectorAll('.js-add-to-cart-button')
   .forEach((button) =>{
@@ -87,13 +87,11 @@ document.querySelectorAll('.js-add-to-cart-button')
       const quant=Number(quantitySelector.value);
       console.log(quant)
       
-      
       // Add to cart
       addToCart(productId,quant);
       // update cartQuantiy on webpage 
       updateCartQuantity();
-    
-
+  
       const addedMsg=document.querySelector(`
         .js-added-to-cart-${productId}`);
       

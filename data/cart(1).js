@@ -1,17 +1,15 @@
 import { deliveryOptions } from "./deliveryOption(1).js";
 
-
-
 export let cart=JSON.parse(localStorage.getItem('cartName'))
 ||
  [{
   productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-  Quantity: 2,
+  quantity: 2,
   deliveryOptionsId: '1'
 },
 {
   productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-  Quantity: 1,
+  quantity: 1,
   deliveryOptionsId: '2'
 }
 ];
@@ -55,4 +53,25 @@ export function removeFromCart(productId){
   });
   cart=newCart;
   saveToStorage();
+}
+
+//CalculateCartQuantity changes from ex 14e
+export function CalculateCartQuantity(){
+  let cartQuantity=0;
+  cart.forEach((cartItem)=>{
+    cartQuantity+=cartItem.quantity;
+  })
+  return cartQuantity;
+}
+
+
+//Update quantity using update button
+export function updateQuantity(productId, newQuantity){
+  cart.forEach((cartItem)=>{
+    if(productId===cartItem.productId){
+      cartItem.quantity=newQuantity;
+      console.log(cartItem);
+    }
+    saveToStorage();
+  });
 }
