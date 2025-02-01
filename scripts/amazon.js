@@ -76,7 +76,7 @@ function updateCartQuantity(){
 }
 
 //ADD to cart button
-const addedMessageTimeouts = {};
+let addedMessageTimeouts;
 document.querySelectorAll('.js-add-to-cart-button')
   .forEach((button) =>{
     button.addEventListener('click',()=>{
@@ -94,12 +94,11 @@ document.querySelectorAll('.js-add-to-cart-button')
   
       const addedMsg=document.querySelector(`
         .js-added-to-cart-${productId}`);
-      
       addedMsg.classList.add('add-to-cart-visible');
+
       // Check if there's a previous timeout for this,
       // product. If there is, we should stop it.
-
-      const previousTimeoutId = addedMessageTimeouts[productId];
+      const previousTimeoutId = addedMessageTimeouts;
       if(previousTimeoutId){
         clearTimeout(previousTimeoutId);
       }
@@ -109,8 +108,7 @@ document.querySelectorAll('.js-add-to-cart-button')
       },2000);
       // Save the timeoutId for this product
       // so we can stop it later if we need to.
-      addedMessageTimeouts[productId] = timeoutId;
-       
+      addedMessageTimeouts = timeoutId;
     });
    
 

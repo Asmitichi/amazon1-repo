@@ -688,5 +688,24 @@ export const products = [
       "unisex",
       "mens"
     ]
+  },
+  {
+    id: "bc2847e9-5323-403f-b7cf-57fde044a955-3",
+    image: "images/products/animeposter.webp",
+    name: "Anime jujutsu kaisen poster",
+    rating: {
+      stars: 4.5,
+      count: 1995
+    },
+    priceCents: 1870,
+    keywords: [
+      "anime",
+      "poster",
+      "mens"
+    ]
   }
+
+
+
+
 ];
