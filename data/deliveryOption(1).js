@@ -16,3 +16,15 @@ export const deliveryOptions=[
     },
 
 ];
+
+
+
+export function getDeliveryOption(cartItem){
+  let matchingDelivery;
+    deliveryOptions.forEach((deliveryItem)=>{
+      if(deliveryItem.id === cartItem.deliveryOptionsId){
+        matchingDelivery = deliveryItem;
+      }
+    });
+  return matchingDelivery || matchingDelivery[0];
+}

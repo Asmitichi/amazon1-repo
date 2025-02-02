@@ -1,3 +1,14 @@
+export function getProduct(cartItem){
+  let matchingProduct;
+  // const products_jsID=products.id;
+  products.forEach((productsItem)=>{
+    if(productsItem.id === cartItem.productId){
+      matchingProduct = productsItem;
+    }
+  });
+  return matchingProduct;
+}
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
