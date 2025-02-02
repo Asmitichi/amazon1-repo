@@ -3,8 +3,9 @@ import { products, getProduct } from "../../data/products(1).js";
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOption(1).js";
 import  formatCurrency  from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
-console.log(dayjs());
+// console.log(dayjs());
  
 export function renderOrderSummary(){
   let checkoutHTML="";
@@ -118,10 +119,13 @@ export function renderOrderSummary(){
     .forEach((deleteLink)=>{
       deleteLink.addEventListener('click',()=>{
         const productId=deleteLink.dataset.productId;
+        //In MVC this step removecart() will update model(data)
         removeFromCart(productId); 
         const container=document.querySelector(`.js-cart-item-container-${productId}`);
         container.remove();
         checkoutHeader();
+        //In MVC this step regenerate all HTML using renderpayment
+        renderPaymentSummary();
       });
     });
 
@@ -149,13 +153,15 @@ export function renderOrderSummary(){
           return;
         }
         else{
-
+          //In MVC this step will update model(data)
           updateQuantity(productId,newQuantity);
           checkoutHeader();
           const container=document.querySelector(`.js-cart-item-container-${productId}`);
           container.classList.remove('is-editing-quantity');
           // document.querySelector(`.js-quantity-label-${productId}`).innerHTML=newQuantity;
+          //In MVC this step regenerate all HTML using renderpayment and renderorder
           renderOrderSummary();
+          renderPaymentSummary();
         }
       });
   });
@@ -166,8 +172,11 @@ export function renderOrderSummary(){
       element.addEventListener('click',()=>{
         const productId = element.dataset.productId;
         const deliveryOptionId = element.dataset.deliveryOptionId;
+        //In MVC this step will update model(data)
         updateDeliveryOption(productId, deliveryOptionId);
+        //In MVC this step regenerate all HTML using renderpayment and renderorder
         renderOrderSummary();
+        renderPaymentSummary();
       });
     }) ;   
 
