@@ -4,6 +4,7 @@ import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOption(1)
 import  formatCurrency  from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 
 // console.log(dayjs());
  
@@ -103,16 +104,15 @@ export function renderOrderSummary(){
     return html;
   }
 
-
+  //shifted to checkoutHeader.js 
   //Header in checkout page that shows total no .of items in checkout page  
-  function checkoutHeader(){
-    const cartQuantity= CalculateCartQuantity();
-    document.querySelector('.js-return-to-home-link')
-      .innerHTML=`${cartQuantity} items`;
-  }
-
-  checkoutHeader();
-
+  // function checkoutHeader(){
+  //   const cartQuantity= CalculateCartQuantity();
+  //   document.querySelector('.js-return-to-home-link')
+  //     .innerHTML=`${cartQuantity} items`;
+  // }
+  // checkoutHeader();
+  renderCheckoutHeader();
 
   //Delete link
   document.querySelectorAll('.js-delete')
@@ -121,10 +121,13 @@ export function renderOrderSummary(){
         const productId=deleteLink.dataset.productId;
         //In MVC this step removecart() will update model(data)
         removeFromCart(productId); 
-        const container=document.querySelector(`.js-cart-item-container-${productId}`);
-        container.remove();
-        checkoutHeader();
-        //In MVC this step regenerate all HTML using renderpayment
+        // const container=document.querySelector(`.js-cart-item-container-${productId}`);
+        // container.remove();
+        // checkoutHeader();
+        renderCheckoutHeader();
+
+        //In MVC this step regenerate all HTML using renderorder, renderpayment
+        renderOrderSummary();
         renderPaymentSummary();
       });
     });
@@ -155,7 +158,8 @@ export function renderOrderSummary(){
         else{
           //In MVC this step will update model(data)
           updateQuantity(productId,newQuantity);
-          checkoutHeader();
+          // checkoutHeader();
+          renderCheckoutHeader();
           const container=document.querySelector(`.js-cart-item-container-${productId}`);
           container.classList.remove('is-editing-quantity');
           // document.querySelector(`.js-quantity-label-${productId}`).innerHTML=newQuantity;
